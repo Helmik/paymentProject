@@ -1,4 +1,3 @@
-var MongoClient = require("mongodb").MongoClient;
 var express = require("express");
 var router = express.Router();
 var Q = require("q");
@@ -29,22 +28,6 @@ router.get("/",showUsers);
 
 router.post("/createUser", createUser);
 
-// Method to get connection with mongo db
-database.connection = function(url="mongodb://admin:4dm1n@localhost:27017/payment"){
-    var deferred = Q.defer();
-    MongoClient.connect(url,function(err,db){
-        if(err){
-            console.log("Error has been occurred: "+err);
-            deferred.reject(false);
-        }else{
-            deferred.resolve(true);
-            console.log("The connection with database has been success.");
-            database.db = db;
-        }
-    });
-
-    return deferred.promise;
-};
 
 module.exports = {
     database : database,

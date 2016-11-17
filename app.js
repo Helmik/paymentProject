@@ -1,18 +1,22 @@
 var express = require("express");
 var app = express();
+var dbConnection = require("./controllers/DBConnectionCtrl");
+var routes = require("./rutes/Index");
 
-var db = require("./routes/dbConnection");
+function initApp(){
 
-app.use("/users", db.router);
+    routes.initRoutes(app);
 
-// Try make connection with mongo db
-db.database.connection().then(function(success){
-    // If success, throw the server
     app.listen(3000,function(){
-        console.log("Payment app listening on port 3000!");
+        console.log("Payment app is listening on port 3000!");
     });
-},function(error){
-    // If error, all kill
+}
+
+function initAppFails(){
     console.log("It doesn't work");
     throw "Error!";
-});
+}
+
+
+
+dbConnection.connection().then(initApp).catch(initAppFails);
