@@ -33,6 +33,6 @@ self.User = new Schema({
 		required : true
 	}
 });
-User.set("autoIndex",true);
+self.User.set("autoIndex",true);
 
-model.exports = self;
+module.exports = self;

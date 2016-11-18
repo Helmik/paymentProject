@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 var dbConnection = require("./controllers/DBConnectionCtrl");
-var routes = require("./rutes/Index");
+var routes = require("./routes/Index");
 
 function initApp(){
 
@@ -12,11 +12,11 @@ function initApp(){
     });
 }
 
-function initAppFails(){
+function appFail(){
     console.log("It doesn't work");
     throw "Error!";
 }
 
+var db = dbConnection.connection();
 
-
-dbConnection.connection().then(initApp).catch(initAppFails);
+db.then(initApp).catch(appFail);
