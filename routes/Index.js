@@ -2,15 +2,18 @@ var Users = require("../controllers/UserCtrl");
 var formidable = require("express-formidable");
 var self = this;
 
-self.initRoutes = function(app){
+self.init = function(globalV){
 
-	app.use(formidable());
+	self.global = globalV;
+	// Parse request data with formidable
+	globalV.app.use(formidable());
 
-	/*Routes for users*/
-	app.get("/users",Users.getAll);
-	app.post("/users/create",Users.create);
-	app.put("/users/update/:id",Users.update);
-	app.get("/users/:id",Users.getAll);
+	/*  Routes for users  */
+	Users.init(globalV);
+	globalV.app.get("/users",Users.getAll);
+	globalV.app.post("/users/create",Users.create);
+	globalV.app.put("/users/update/:id",Users.update);
+	globalV.app.get("/users/:id",Users.getAll);
 
 };
 

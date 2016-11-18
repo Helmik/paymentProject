@@ -22,6 +22,10 @@ self.User = new Schema({
 	},
 	userName : {
 		type : String,
+		// validate: {
+  //         validator: ,
+  //         message: "userOnCreateBadJSON"
+  //       },
 		required : true
 	},
 	password : {
