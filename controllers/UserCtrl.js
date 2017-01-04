@@ -4,33 +4,21 @@ var errors = require("../dictionary/errorCodes");
 
 var self = this;
 
-self.init = function(globalV){
-    self.global = globalV;
+self.init = function(globalConfiguration){
+    self.global = globalConfiguration;
 }
 
 
 // Function to parse response
-function result(err,data,type){
-    var response = {};
+function success(err,data,type){
+    let response = {};
     // Define what kind of message goes to show
-    if(err){
-        var stackMessage = errors;
-        response.error = err;
+    response.data = data;
 
-        if(err.name){
-            type = err.name;
-        }
-    }else{
-        var stackMessage = messages;
-        response.data = data;
-    }
-
-    // Define HTTP code
-    var statusCode = stackMessage[type].statusCode;
     // Build message to response
-    response.code = stackMessage[type].code;
-    response.status = stackMessage[type].statusCode;
-    response.message = stackMessage[type].message[self.global.language];
+    response.code = messages[type].code;
+    response.status = messages[type].statusCode;
+    response.message = messages[type].message[self.global.language];
 
     if(!response.code){
         delete response.code;
@@ -38,27 +26,46 @@ function result(err,data,type){
 
     return {
         response : response,
-        statusCode : statusCode
+        statusCode : messages[type].statusCode
     };
+}
+
+function fail(err,type){
+    return {
+        error : err,
+        message : errors[type].message[self.global.language],
+        code : errors[type].code,
+        statusCode : errors[type].statusCode,
+    }
+
 }
 
 // Return all users registered
 self.getAll = function(req,res,next){
     function getAllUsers(err, users) {
-        var response = result(err,users,"usersOnGet");
-        res.statusCode = response.statusCode;
-        res.send(response.response);
+        if(err){
+            next(fail(err,"userOnGet"));
+        }else{
+            var response = success(err,users,"usersOnGet");
+            res.statusCode = response.statusCode;
+            res.send(response.response);
+        }
     }
 
     UserModel.UserModel.find({},getAllUsers);
 };
 
+// Create a new user
 self.create = function(req,res,next){
 
     function saveUser(err,user){
-        var response = result(err,user,"userOnCreated");
-        res.statusCode = response.statusCode;
-        res.send(response.response);
+        if(err){
+            next(fail(err,"userOnCreated"));
+        }else{
+            var response = success(err,user,"userOnCreated");
+            res.statusCode = response.statusCode;
+            res.send(response.response);
+        }
     }
 
     var newUser = UserModel.buildUser(req.fields);  
@@ -73,7 +80,7 @@ self.getById = function(req,res,next){
     console.log("Function to getById an user");
 };
 
-self.userNameExistAlready = function(userName){
+self.searchUserByEmail = function(userName){
     function getUser(err, users) {
         if(err){
 

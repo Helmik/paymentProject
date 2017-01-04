@@ -26,7 +26,7 @@ self.userOnCreateBadJSON = {
 	}
 };
 
-self.ValidationError = {
+self.validationError = {
 	code : "003",
 	statusCode : "400",
 	message : {
@@ -34,5 +34,14 @@ self.ValidationError = {
 		english : "The JSON sent is not valid."
 	}
 };
+
+self.invalidEmail = {
+	code : "004",
+	status : "400",
+	message : {
+		spanish : "El formato del correo es inválido.",
+		english : "Email format is invalid."
+	}
+}
 
 module.exports = self;

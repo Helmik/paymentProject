@@ -1,7 +1,15 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var errors = require("../dictionary/errorCodes");
 
 var self = this;
+
+var emailValidator = function(email){
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+	// console.log("----------",email); 
+	// return true;
+};
 
 self.User = new Schema({
 	firstName : {
@@ -22,10 +30,6 @@ self.User = new Schema({
 	},
 	userName : {
 		type : String,
-		// validate: {
-  //         validator: ,
-  //         message: "userOnCreateBadJSON"
-  //       },
 		required : true
 	},
 	password : {
@@ -34,7 +38,11 @@ self.User = new Schema({
 	},
 	email : {
 		type : String,
-		required : true
+		required : true,
+		validate: {
+			validator : emailValidator,
+			message : JSON.stringify(errors.invalidEmail)
+		}//[emailValidator,JSON.stringify(errors.invalidEmail)]
 	}
 });
 self.User.set("autoIndex",true);

@@ -4,7 +4,7 @@ var dbConnection = require("./controllers/DBConnectionCtrl");
 var index = require("./routes/Index");
 
 // Global variable to config application
-var globalV  = {
+var globalConfiguration  = {
     app : express(),
     language : "spanish"
 };
@@ -12,10 +12,10 @@ var globalV  = {
 // Function to initialize application
 function initApp(){
     // Initialize index resource
-    index.init(globalV);
+    index.init(globalConfiguration);
 
     // Stat server on port 3000
-    globalV.app.listen(3000,function(){
+    globalConfiguration.app.listen(3000,function(){
         console.log("Payment app is listening on port 3000!");
     });
 }
@@ -26,6 +26,6 @@ function appFail(){
     throw "Error!";
 }
 
-// Try connect with database
+// Try to connect to database
 var db = dbConnection.connection();
 db.then(initApp).catch(appFail);
