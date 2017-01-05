@@ -1,15 +1,10 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var errors = require("../dictionary/errorCodes");
+var mongoose = require("mongoose"),
+	Schema = mongoose.Schema;
 
-var self = this;
+	errors = require("../dictionary/errorCodes");
+	userCtrl = require("../controllers/UserCtrl");
 
-var emailValidator = function(email){
-	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-	// console.log("----------",email); 
-	// return true;
-};
+	self = this;
 
 self.User = new Schema({
 	firstName : {
@@ -38,13 +33,21 @@ self.User = new Schema({
 	},
 	email : {
 		type : String,
-		required : true,
-		validate: {
-			validator : emailValidator,
-			message : JSON.stringify(errors.invalidEmail)
-		}//[emailValidator,JSON.stringify(errors.invalidEmail)]
+		required : true
+		// validate: {
+		// 	validator : emailValidator,
+		// 	message : JSON.stringify(errors.invalidEmail)
+		// }
 	}
 });
+
+function emailValidator(email){
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+};
+
+self.User.path('email').validate(emailValidator, JSON.stringify(errors.invalidEmail));
+
 self.User.set("autoIndex",true);
 
 module.exports = self;

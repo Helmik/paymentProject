@@ -16,7 +16,7 @@ function initApp(){
 
     // Stat server on port 3000
     globalConfiguration.app.listen(3000,function(){
-        console.log("Payment app is listening on port 3000!");
+        console.log("Payment app is listening on port 3000!\n\n\n\n\n\n\n");
     });
 }
 

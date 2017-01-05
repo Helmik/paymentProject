@@ -37,10 +37,37 @@ self.validationError = {
 
 self.invalidEmail = {
 	code : "004",
-	status : "400",
+	statusCode : "400",
 	message : {
 		spanish : "El formato del correo es inválido.",
 		english : "Email format is invalid."
+	}
+};
+
+self.emailExistAlready = {
+	code : "005",
+	statusCode : "500",
+	message : {
+		spanish : "El correo electrónico ya existe",
+		english : "The email exists already"
+	}
+};
+
+self.userNameExistAlready = {
+	code : "006",
+	statusCode : "500",
+	message : {
+		spanish : "El usuario ya existe",
+		english : "The user name exists already"
+	}
+};
+
+self.errorDataBaseConnection = {
+	code : "007",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido establecer conexión con la base de datos.",
+		english : "Could not connection to database."
 	}
 }
 
