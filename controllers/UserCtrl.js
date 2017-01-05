@@ -11,7 +11,7 @@ self.init = function(globalConfiguration){
 
 
 // Function to parse response
-function success(err,data,type){
+function success(data,type){
     let response = {};
     // Define what kind of message goes to show
     response.data = data;
@@ -31,6 +31,7 @@ function success(err,data,type){
     };
 }
 
+// Function to handle errors
 function fail(err,type){
     return {
         error : err,
@@ -47,7 +48,7 @@ self.getAll = function(req,res,next){
         if(err){
             next(fail(err,"userOnGet"));
         }else{
-            var response = success(err,users,"usersOnGet");
+            var response = success(users,"usersOnGet");
             res.statusCode = response.statusCode;
             res.send(response.response);
         }
@@ -63,16 +64,17 @@ self.create = function(req,res,next){
         if(err){
             next(fail(err,"userOnCreated"));
         }else{
-            var response = success(err,user,"userOnCreated");
+            var response = success(user,"userOnCreated");
             res.statusCode = response.statusCode;
             res.send(response.response);
         }
     }
 
+    // Get data from petition
     var newUser = UserModel.buildUser(req.fields);
-    console.log("------",newUser);
+
+    // Verify if the email and user doesn't exist
     Promise.all([searchUserByEmail(newUser.email),searchUserByUserName(newUser.userName)]).then(function(results){
-        console.log("validar usuario\n",results);
         if(results[0]){
             next(fail({},"emailExistAlready"));
             return 0;
@@ -82,19 +84,55 @@ self.create = function(req,res,next){
             return 0;
         }
 
+        // Create user
         newUser.save(saveUser);
     }).catch(function(errors){
-        console.log(errors);
         next(fail(errors,"errorDataBaseConnection"));
     });
 };
 
 self.update = function(req,res,next){
-    console.log("Function to update an user");
+
+    // let user = UserModel.buildUser(req.fields);
+    // "586e804c5e042803d2e64033"
+    let query = { _id : req.params.id };
+
+    function userUpdated(err,doc,updated){
+        if(err){
+            next(fail({},"updateUser"))
+        }else{
+            var response = success({},"updateUser");
+            res.statusCode = response.statusCode;
+            res.send(response.response);
+        }
+    }
+
+    searchUserByEmail(req.fields.email).then(function(result){
+        if(result && result._id != req.params.id){
+            next(fail({},"emailExistAlready"));
+            return 0;
+        }
+
+        // Updated user
+        UserModel.UserModel.findOneAndUpdate(query, { $set: req.fields}, userUpdated);
+    }).catch(function(error){
+        next(fail(error,"errorDataBaseConnection"));
+    });
+
 };
 
-self.getById = function(req,res,next){
-    console.log("Function to getById an user");
+self.getUserById = function(req,res,next){
+    function getUserById(err, users) {
+        if(err){
+            next(fail(err,"getUserById"));
+        }else{
+            var response = success(users,"getUserById");
+            res.statusCode = response.statusCode;
+            res.send(response.response);
+        }
+    }
+
+    UserModel.UserModel.find({_id : req.params.id},getUserById);
 };
 
 function searchUserByEmail(email){
@@ -106,7 +144,6 @@ function searchUserByEmail(email){
                 resolve(user);
             }
         }
-
         UserModel.UserModel.findOne({'email' : email},getUserByEmail);
     })
 }
@@ -117,11 +154,9 @@ function searchUserByUserName(userName){
             if(err){
                 reject(err);
             }else{
-                console.log("search user by name",user)
                 resolve(user);
             }
         }
-
         UserModel.UserModel.findOne({'userName' : userName},getUserByUserName);
     })
 }

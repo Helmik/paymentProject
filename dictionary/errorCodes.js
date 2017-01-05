@@ -69,6 +69,24 @@ self.errorDataBaseConnection = {
 		spanish : "No se ha podido establecer conexión con la base de datos.",
 		english : "Could not connection to database."
 	}
+};
+
+self.updateUser = {
+	code : "008",
+	statusCode : "500",
+	message : {
+		spanish : "El usuario no se ha podido actualizar.",
+		english : "The user has not been updated."
+	}
+};
+
+self.getUserById = {
+	code : "009",
+	statusCode : "500",
+	message : {
+		spanish : "El usuario no se ha encontrado.",
+		english : "The user has not been finded."
+	}
 }
 
 module.exports = self;

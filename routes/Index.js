@@ -32,7 +32,7 @@ self.init = function(globalConfiguration){
 	globalConfiguration.app.get("/users",Users.getAll);
 	globalConfiguration.app.post("/users/create",Users.create);
 	globalConfiguration.app.put("/users/update/:id",Users.update);
-	globalConfiguration.app.get("/users/:id",Users.getAll);
+	globalConfiguration.app.get("/users/:id",Users.getUserById);
 
 
 	/* Catch errors */

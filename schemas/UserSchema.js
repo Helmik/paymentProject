@@ -38,6 +38,10 @@ self.User = new Schema({
 		// 	validator : emailValidator,
 		// 	message : JSON.stringify(errors.invalidEmail)
 		// }
+	},
+	active : {
+		type : Boolean,
+		required : true
 	}
 });
 
@@ -47,6 +51,12 @@ function emailValidator(email){
 };
 
 self.User.path('email').validate(emailValidator, JSON.stringify(errors.invalidEmail));
+
+self.User.pre('validate', function(next) {
+  console.log('this gets printed third',this);
+  this.active = true;
+  next();
+});
 
 self.User.set("autoIndex",true);
 
