@@ -1,169 +1,117 @@
 var UserModel = require("../models/UserModel"),
-    messages = require("../dictionary/messages"),
-    errors = require("../dictionary/errorCodes"),
+    handleResponse = require("../shared/HandleResponse"),
+
     Promise = require('bluebird'),
 
     self = this;
 
 self.init = function(globalConfiguration){
-    self.global = globalConfiguration;
-}
-
-
-// Function to parse response
-function success(data,type){
-    let response = {};
-    // Define what kind of message goes to show
-    response.data = data;
-
-    // Build message to response
-    response.code = messages[type].code;
-    response.status = messages[type].statusCode;
-    response.message = messages[type].message[self.global.language];
-
-    if(!response.code){
-        delete response.code;
-    }
-
-    return {
-        response : response,
-        statusCode : messages[type].statusCode
-    };
-}
-
-// Function to handle errors
-function fail(err,type){
-    return {
-        error : err,
-        message : errors[type].message[self.global.language],
-        code : errors[type].code,
-        statusCode : errors[type].statusCode,
-    }
-
+  self.global = globalConfiguration;
+  handleResponse.init(self.global);
 }
 
 // Return all users registered
 self.getAll = function(req,res,next){
-    console.log("1");
-    function getAllUsers(err, users) {
-        console.log("3");
-        if(err){
-            console.log("4");
-            next(fail(err,"userOnGet"));
-        }else{
-            console.log("5");
-            var response = success(users,"usersOnGet");
-            res.statusCode = response.statusCode;
-            res.send(response.response);
-        }
+  UserModel.find({}, function(err, users) {
+    if(err){
+      next(handleResponse.error(err,"userOnGet"));
+    }else{
+      var response = handleResponse.success(users,"usersOnGet");
+      res.statusCode = response.statusCode;
+      res.send(response.response);
     }
-
-    console.log("2");
-    UserModel.model.find({},getAllUsers);
+  });
 };
 
 // Create a new user
 self.create = function(req,res,next){
-
-    function saveUser(err,user){
-        if(err){
-            next(fail(err,"userOnCreated"));
-        }else{
-            var response = success(user,"userOnCreated");
-            res.statusCode = response.statusCode;
-            res.send(response.response);
-        }
-    }
-
     // Get data from petition
-    var newUser = UserModel.buildUser(req.fields);
+  let newUser = UserModel.buildUser(req.fields);
 
     // Verify if the email and user doesn't exist
-    Promise.all([searchUserByEmail(newUser.email),searchUserByUserName(newUser.userName)]).then(function(results){
-        if(results[0]){
-            next(fail({},"emailExistAlready"));
-            return 0;
-        }
-        if(results[1]){
-            next(fail({},"userNameExistAlready"));
-            return 0;
-        }
+  Promise.all([searchUserByEmail(newUser.email),searchUserByUserName(newUser.userName)]).then(function(results){
+    if(results[0]){
+      next(handleResponse.error({},"emailExistAlready"));
+      return 0;
+    }
+    if(results[1]){
+      next(handleResponse.error({},"userNameExistAlready"));
+      return 0;
+    }
 
-        // Create user
-        newUser.save(saveUser);
-    }).catch(function(errors){
-        next(fail(errors,"errorDataBaseConnection"));
+    // Create user
+    newUser.save(function(err,user){
+      if(err){
+        next(handleResponse.error(err,"userOnCreated"));
+      }else{
+        let response = handleResponse.success(user,"userOnCreated");
+        res.statusCode = response.statusCode;
+        res.send(response.response);
+      }
     });
+  }).catch(function(errors){
+    next(handleResponse.error(errors,"errorDataBaseConnection"));
+  });
 };
 
 self.update = function(req,res,next){
+  let query = { _id : req.params.id };
 
-    // let user = UserModel.buildUser(req.fields);
-    // "586e804c5e042803d2e64033"
-    let query = { _id : req.params.id };
-
-    function userUpdated(err,doc,updated){
-        if(err){
-            next(fail({},"updateUser"))
-        }else{
-            var response = success({},"updateUser");
-            res.statusCode = response.statusCode;
-            res.send(response.response);
-        }
+  searchUserByEmail(req.fields.email).then(function(result){
+    if(result && result._id != req.params.id){
+      next(handleResponse.error({},"emailExistAlready"));
+      return 0;
     }
 
-    searchUserByEmail(req.fields.email).then(function(result){
-        if(result && result._id != req.params.id){
-            next(fail({},"emailExistAlready"));
-            return 0;
-        }
-
-        // Updated user
-        UserModel.model.findOneAndUpdate(query, { $set: req.fields}, userUpdated);
-    }).catch(function(error){
-        next(fail(error,"errorDataBaseConnection"));
+    // Updated user
+    UserModel.findOneAndUpdate(query, { $set: req.fields}, function(err,doc,updated){
+      if(err){
+        next(handleResponse.error({},"updateUser"))
+      }else{
+        let response = handleResponse.success({},"updateUser");
+        res.statusCode = response.statusCode;
+        res.send(response.response);
+      }
     });
-
+  }).catch(function(error){
+    next(handleResponse.error(error,"errorDataBaseConnection"));
+  });
 };
 
 self.getUserById = function(req,res,next){
-    function getUserById(err, users) {
-        if(err){
-            next(fail(err,"getUserById"));
-        }else{
-            var response = success(users,"getUserById");
-            res.statusCode = response.statusCode;
-            res.send(response.response);
-        }
+  UserModel.find({_id : req.params.id}, function(err, users) {
+    if(err){
+      next(handleResponse.error(err,"getUserById"));
+    }else{
+      let response = handleResponse.success(users,"getUserById");
+      res.statusCode = response.statusCode;
+      res.send(response.response);
     }
-
-    UserModel.model.find({_id : req.params.id},getUserById);
+  });
 };
 
 function searchUserByEmail(email){
-    return new Promise(function(resolve,reject){
-        function getUserByEmail(err, user) {
-            if(err){
-                reject(err);
-            }else{
-                resolve(user);
-            }
-        }
-        UserModel.model.findOne({'email' : email},getUserByEmail);
-    })
+  return new Promise(function(resolve,reject){
+    UserModel.findOne({'email' : email},function(err, user) {
+      if(err){
+        reject(err);
+      }else{
+        resolve(user);
+      }
+    });
+  })
 }
 
 function searchUserByUserName(userName){
-    return new Promise(function(resolve,reject){
-        function getUserByUserName(err, user) {
-            if(err){
-                reject(err);
-            }else{
-                resolve(user);
-            }
-        }
-        UserModel.model.findOne({'userName' : userName},getUserByUserName);
-    })
+  return new Promise(function(resolve,reject){
+    UserModel.findOne({'userName' : userName},function(err, user) {
+      if(err){
+        reject(err);
+      }else{
+        resolve(user);
+      }
+    });
+  })
 }
 
 module.exports = self;
