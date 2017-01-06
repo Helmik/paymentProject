@@ -44,17 +44,22 @@ function fail(err,type){
 
 // Return all users registered
 self.getAll = function(req,res,next){
+    console.log("1");
     function getAllUsers(err, users) {
+        console.log("3");
         if(err){
+            console.log("4");
             next(fail(err,"userOnGet"));
         }else{
+            console.log("5");
             var response = success(users,"usersOnGet");
             res.statusCode = response.statusCode;
             res.send(response.response);
         }
     }
 
-    UserModel.UserModel.find({},getAllUsers);
+    console.log("2");
+    UserModel.model.find({},getAllUsers);
 };
 
 // Create a new user
@@ -114,7 +119,7 @@ self.update = function(req,res,next){
         }
 
         // Updated user
-        UserModel.UserModel.findOneAndUpdate(query, { $set: req.fields}, userUpdated);
+        UserModel.model.findOneAndUpdate(query, { $set: req.fields}, userUpdated);
     }).catch(function(error){
         next(fail(error,"errorDataBaseConnection"));
     });
@@ -132,7 +137,7 @@ self.getUserById = function(req,res,next){
         }
     }
 
-    UserModel.UserModel.find({_id : req.params.id},getUserById);
+    UserModel.model.find({_id : req.params.id},getUserById);
 };
 
 function searchUserByEmail(email){
@@ -144,7 +149,7 @@ function searchUserByEmail(email){
                 resolve(user);
             }
         }
-        UserModel.UserModel.findOne({'email' : email},getUserByEmail);
+        UserModel.model.findOne({'email' : email},getUserByEmail);
     })
 }
 
@@ -157,7 +162,7 @@ function searchUserByUserName(userName){
                 resolve(user);
             }
         }
-        UserModel.UserModel.findOne({'userName' : userName},getUserByUserName);
+        UserModel.model.findOne({'userName' : userName},getUserByUserName);
     })
 }
 
