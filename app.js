@@ -1,7 +1,7 @@
 // Import modules
-var express = require("express");
-var dbConnection = require("./config/DBConnection");
-var index = require("./routes/Index");
+var express = require("express"),
+    dbConnection = require("./config/DBConnection"),
+    index = require("./routes/Index");
 
 // Global variable to config application
 var globalConfiguration  = {

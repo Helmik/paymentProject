@@ -1,7 +1,7 @@
 var messages = require("../dictionary/messages"),
-    errors = require("../dictionary/errorCodes"),
+  errors = require("../dictionary/errorCodes"),
 
-    self = this;
+  self = this;
 
 self.init = function(globalConfiguration){
   self.global = globalConfiguration;
@@ -15,7 +15,7 @@ self.success = function(data,type){
 
   // Build message to response
   response.code = messages[type].code;
-  response.status = messages[type].statusCode;
+  // response.status = messages[type].statusCode;
   response.message = messages[type].message[self.global.language];
 
   if(!response.code){

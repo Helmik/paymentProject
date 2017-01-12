@@ -16,9 +16,8 @@ self.getAll = function(req,res,next){
     if(err){
       next(handleResponse.error(err,"userOnGet"));
     }else{
-      var response = handleResponse.success(users,"usersOnGet");
-      res.statusCode = response.statusCode;
-      res.send(response.response);
+      let response = handleResponse.success(users,"usersOnGet");
+      res.status(response.statusCode).send(response.response);
     }
   });
 };
@@ -26,7 +25,7 @@ self.getAll = function(req,res,next){
 // Create a new user
 self.create = function(req,res,next){
     // Get data from petition
-  let newUser = UserModel(req.fields);
+  let newUser = UserModel(req.body);
   // Verify if the email and user doesn't exist
   Promise.all([searchUserByEmail(newUser.email),searchUserByUserName(newUser.userName)]).then(function(results){
     if(results[0]){
@@ -41,8 +40,8 @@ self.create = function(req,res,next){
         return next(handleResponse.error(err,"userOnCreated"));
       }
       let response = handleResponse.success(user,"userOnCreated");
-      res.statusCode = response.statusCode;
-      res.send(response.response);
+      
+      res.status(response.statusCode).send(response.response);
     });
   }).catch(function(errors){
     next(handleResponse.error(errors,"errorDataBaseConnection"));
