@@ -51,19 +51,18 @@ self.create = function(req,res,next){
 self.update = function(req,res,next){
   let query = { _id : req.params.id };
 
-  searchUserByEmail(req.fields.email).then(function(result){
+  searchUserByEmail(req.body.email).then(function(result){
     if(result && result._id != req.params.id){
       return next(handleResponse.error({},"emailExistAlready"));
     }
 
     // Updated user
-    UserModel.findOneAndUpdate(query, { $set: req.fields}, function(err,doc,updated){
+    UserModel.findOneAndUpdate(query, { $set: req.body}, function(err,doc,updated){
       if(err){
         return next(handleResponse.error({},"updateUser"))
       }
-      let response = handleResponse.success({},"updateUser");
-      res.statusCode = response.statusCode;
-      res.send(response.response);
+      let response = handleResponse.success(req.body,"updateUser");
+      res.status(response.statusCode).send(response.response);
     });
   }).catch(function(error){
     next(handleResponse.error(error,"errorDataBaseConnection"));
