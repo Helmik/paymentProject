@@ -1,5 +1,5 @@
-var UserModel = require("../models/UserModel"),
-    handleResponse = require("../shared/HandleResponse"),
+var UserModel = require("../../models/User/UserModel"),
+    handleResponse = require("../../shared/HandleResponse"),
 
     Promise = require('bluebird'),
 

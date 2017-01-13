@@ -1,4 +1,4 @@
-var Users = require("../controllers/UserCtrl"),
+var Users = require("../controllers/User/UserCtrl"),
 	bodyParser = require('body-parser')
 	jsonParser = bodyParser.json(),
 	// var cors = require("cors"),

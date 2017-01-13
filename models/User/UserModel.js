@@ -1,6 +1,6 @@
 var mongoose = require("mongoose"),
-	User = require("../schemas/UserSchema"),
-	errors = require("../dictionary/errorCodes");
+	User = require("../../schemas/User/UserSchema"),
+	errors = require("../../dictionary/errorCodes");
 
 function emailValidator(email){
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
