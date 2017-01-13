@@ -1,5 +1,6 @@
 var Users = require("../controllers/User/UserCtrl"),
-	bodyParser = require('body-parser')
+	StripePlan = require("../controllers/Stripe/PlanCtrl"),
+	bodyParser = require('body-parser'),
 	jsonParser = bodyParser.json(),
 	// var cors = require("cors"),
 	self = this;
@@ -9,12 +10,12 @@ function errorHandler(err, req, res, next) {
   res.status(err.statusCode).send({message: err.message, code: err.code});
 }
 
-self.init = function(globalConfiguration){
+self.init = function(conf){
 
 	// Parse request data with formidable
 
 	// Add headers
-	globalConfiguration.app.use(function (req, res, next) {
+	conf.app.use(function (req, res, next) {
 	    // Website you wish to allow to connect
 	    res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -32,17 +33,26 @@ self.init = function(globalConfiguration){
 	    next();
 	});
 
-	// globalConfiguration.app.use(cors())
+	conf.app.use(bodyParser.json());
+	conf.app.use(bodyParser.urlencoded({
+	  extended: true
+	}));
+	// conf.app.use(cors())
 
 	/*  Routes for users  */
-	Users.init(globalConfiguration);
-	globalConfiguration.app.get("/users",jsonParser,Users.getAll);
-	globalConfiguration.app.post("/users/create",jsonParser,Users.create);
-	globalConfiguration.app.put("/users/update/:id",jsonParser,Users.update);
-	globalConfiguration.app.get("/users/:id",jsonParser,Users.getUserById);
+	Users.init(conf);
+	conf.app.get("/api/users",Users.getAll);
+	conf.app.post("/api/users/create",Users.create);
+	conf.app.put("/api/users/update/:id",Users.update);
+	conf.app.get("/api/users/:id",Users.getUserById);
+
+
+	/* Routes for Stripe */
+	StripePlan.init(conf);
+	conf.app.post("/api/stripe/create",StripePlan.create);
 
 	/* Catch errors */
-	globalConfiguration.app.use(errorHandler);
+	conf.app.use(errorHandler);
 
 };
 

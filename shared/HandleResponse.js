@@ -3,8 +3,8 @@ var messages = require("../dictionary/messages"),
 
   self = this;
 
-self.init = function(globalConfiguration){
-  self.global = globalConfiguration;
+self.init = function(conf){
+  self.conf = conf;
 }
 
 // Function to parse response
@@ -16,7 +16,7 @@ self.success = function(data,type){
   // Build message to response
   response.code = messages[type].code;
   // response.status = messages[type].statusCode;
-  response.message = messages[type].message[self.global.language];
+  response.message = messages[type].message[self.conf.language];
 
   if(!response.code){
     delete response.code;
@@ -32,7 +32,7 @@ self.success = function(data,type){
 self.error = function(err,type){
   return {
     error : err,
-    message : errors[type].message[self.global.language],
+    message : errors[type].message[self.conf.language],
     code : errors[type].code,
     statusCode : errors[type].statusCode,
   }

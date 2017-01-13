@@ -1,22 +1,22 @@
 var UserModel = require("../../models/User/UserModel"),
-    handleResponse = require("../../shared/HandleResponse"),
+    HandleResponse = require("../../shared/HandleResponse"),
 
     Promise = require('bluebird'),
 
     self = this;
 
-self.init = function(globalConfiguration){
-  self.global = globalConfiguration;
-  handleResponse.init(self.global);
+self.init = function(conf){
+  self.conf = conf;
+  HandleResponse.init(self.conf);
 }
 
 // Return all users registered
 self.getAll = function(req,res,next){
   UserModel.find({}, function(err, users) {
     if(err){
-      next(handleResponse.error(err,"userOnGet"));
+      next(HandleResponse.error(err,"userOnGet"));
     }else{
-      let response = handleResponse.success(users,"usersOnGet");
+      let response = HandleResponse.success(users,"usersOnGet");
       res.status(response.statusCode).send(response.response);
     }
   });
@@ -29,22 +29,22 @@ self.create = function(req,res,next){
   // Verify if the email and user doesn't exist
   Promise.all([searchUserByEmail(newUser.email),searchUserByUserName(newUser.userName)]).then(function(results){
     if(results[0]){
-      return next(handleResponse.error({},"emailExistAlready"));
+      return next(HandleResponse.error({},"emailExistAlready"));
     }
     if(results[1]){
-      return next(handleResponse.error({},"userNameExistAlready"));
+      return next(HandleResponse.error({},"userNameExistAlready"));
     }
     // Create user
     newUser.save(function(err,user){
       if(err){
-        return next(handleResponse.error(err,"userOnCreated"));
+        return next(HandleResponse.error(err,"userOnCreated"));
       }
-      let response = handleResponse.success(user,"userOnCreated");
+      let response = HandleResponse.success(user,"userOnCreated");
       
       res.status(response.statusCode).send(response.response);
     });
   }).catch(function(errors){
-    next(handleResponse.error(errors,"errorDataBaseConnection"));
+    next(HandleResponse.error(errors,"errorDataBaseConnection"));
   });
 };
 
@@ -53,28 +53,28 @@ self.update = function(req,res,next){
 
   searchUserByEmail(req.body.email).then(function(result){
     if(result && result._id != req.params.id){
-      return next(handleResponse.error({},"emailExistAlready"));
+      return next(HandleResponse.error({},"emailExistAlready"));
     }
 
     // Updated user
     UserModel.findOneAndUpdate(query, { $set: req.body}, function(err,doc,updated){
       if(err){
-        return next(handleResponse.error({},"updateUser"))
+        return next(HandleResponse.error({},"updateUser"))
       }
-      let response = handleResponse.success(req.body,"updateUser");
+      let response = HandleResponse.success(req.body,"updateUser");
       res.status(response.statusCode).send(response.response);
     });
   }).catch(function(error){
-    next(handleResponse.error(error,"errorDataBaseConnection"));
+    next(HandleResponse.error(error,"errorDataBaseConnection"));
   });
 };
 
 self.getUserById = function(req,res,next){
   UserModel.find({_id : req.params.id}, function(err, users) {
     if(err){
-      return next(handleResponse.error(err,"getUserById"));
+      return next(HandleResponse.error(err,"getUserById"));
     }
-    let response = handleResponse.success(users,"getUserById");
+    let response = HandleResponse.success(users,"getUserById");
     res.statusCode = response.statusCode;
     res.send(response.response);
   });

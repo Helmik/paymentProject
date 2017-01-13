@@ -22,7 +22,7 @@ self.updateUser = {
 		spanish : "El usuario se ha actualizado con éxito.",
 		english : "The user has been updated successfully."
 	}
-}
+};
 
 self.getUserById = {
 	statusCode : "200",
@@ -30,6 +30,14 @@ self.getUserById = {
 		spanish : "Usuario encontrado.",
 		english : "User fnded."
 	}
-}
+};
+
+self.stripePlanCreate = {
+	statusCode : "200",
+	message : {
+		spanish : "El plan ha sido creado correctamente.",
+		english : "The plan has been create successfully."
+	}
+};
 
 module.exports = self;

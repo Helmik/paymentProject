@@ -76,7 +76,7 @@ self.updateUser = {
 	statusCode : "500",
 	message : {
 		spanish : "El usuario no se ha podido actualizar.",
-		english : "The user has not been updated."
+		english : "The user has not been update."
 	}
 };
 
@@ -85,7 +85,16 @@ self.getUserById = {
 	statusCode : "500",
 	message : {
 		spanish : "El usuario no se ha encontrado.",
-		english : "The user has not been finded."
+		english : "The user has not been find."
+	}
+}
+
+self.stripePlanCreate = {
+	code : "010",
+	statusCode : "500",
+	message : {
+		spanish : "El plan no se ha podido crear.",
+		english : "The plan has not been create."
 	}
 }
 
