@@ -1,18 +1,31 @@
-var express = require('express');
-var app = express();
+// Import modules
+var express = require("express"),
+    dbConnection = require("./config/DBConnection"),
+    index = require("./routes/Index");
 
-var db = require('./routes/dbConnection');
+// Global variable to config application
+var globalConfiguration  = {
+    app : express(),
+    language : "spanish"
+};
 
-app.use('/users', db.router);
+// Function to initialize application
+function initApp(){
+    // Initialize index resource
+    index.init(globalConfiguration);
 
-// Try make connection with mongo db
-db.database.connection().then(function(success){
-	// If success, throw the server
-	app.listen(3000,function(){
-		console.log("Payment app listening on port 3000!");
-	});
-},function(error){
-	// If error, all kill
-	console.log("It doesn't work");
-	throw "Error!";
-});
+    // Stat server on port 3000
+    globalConfiguration.app.listen(3000,function(){
+        console.log("Payment app is listening on port 3000!\n\n\n\n\n\n\n");
+    });
+}
+
+// Execute when data base connection fails
+function appFail(){
+    console.log("It doesn't work");
+    throw "Error!";
+}
+
+// Try to connect to database
+var db = dbConnection.connection();
+db.then(initApp).catch(appFail);
