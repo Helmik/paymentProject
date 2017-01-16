@@ -48,11 +48,11 @@ self.stripeCustomerCreate = {
 	}
 };
 
-self.stripePlanRetrive = {
+self.stripePlanRetrieve = {
 	statusCode : "200",
 	message : {
 		spanish : "El plan se ha recuperado con éxito.",
-		english : "The plan has been retrived successfully."
+		english : "The plan has been retrieved successfully."
 	}
 };
 
@@ -72,19 +72,19 @@ self.stripePlanDelete = {
 	}
 };
 
-self.stripePlanGetAll = {
+self.stripePlanList = {
 	statusCode : "200",
 	message : {
 		spanish : "Se han recuperado todos los planes.",
-		english : "All the plans has been retrived."
+		english : "All the plans has been retrieved."
 	}
 };
 
-self.stripeCustomerRetrive = {
+self.stripeCustomerRetrieve = {
 	statusCode : "200",
 	message : {
 		spanish : "El cliente se ha recuperado con éxito.",
-		english : "The client has been retrived successfully."
+		english : "The client has been retrieved successfully."
 	}
 };
 
@@ -104,11 +104,51 @@ self.stripeCustomerDelete = {
 	}
 };
 
-self.stripeCustomerGetAll = {
+self.stripeCustomerList = {
 	statusCode : "200",
 	message : {
 		spanish : "Se han recuperado todos los clientes.",
-		english : "All the customers has been retrived."
+		english : "All the customers has been retrieved."
+	}
+};
+
+self.stripeCuponCreate = {
+	statusCode : "200",
+	message : {
+		spanish : "El cupón ha sido creado correctamente.",
+		english : "The cupon has been create successfully."
+	}
+};
+
+self.stripeCuponRetrieve = {
+	statusCode : "200",
+	message : {
+		spanish : "El cupón se ha recuperado con éxito.",
+		english : "The cupon has been retrieved successfully."
+	}
+};
+
+self.stripeCuponUpdated = {
+	statusCode : "200",
+	message : {
+		spanish : "El cupón se actualizó correctamente.",
+		english : "The cupon has been updated successfully."
+	}
+};
+
+self.stripeCuponDelete = {
+	statusCode : "200",
+	message : {
+		spanish : "El cupón se eliminado correctamente.",
+		english : "The cupon has been deleted successfully."
+	}
+};
+
+self.stripeCuponList = {
+	statusCode : "200",
+	message : {
+		spanish : "Se han recuperado todos los cupones.",
+		english : "All the customers has been cupons."
 	}
 };
 

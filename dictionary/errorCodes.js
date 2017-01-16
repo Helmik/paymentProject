@@ -107,12 +107,12 @@ self.stripeCustomerCreate = {
 	}
 };
 
-self.stripePlanRetrive = {
+self.stripePlanRetrieve = {
 	code : "012",
 	statusCode : "500",
 	message : {
 		spanish : "No se ha podido recuperar el plan.",
-		english : "The plan has not been retrived."
+		english : "The plan has not been retrieved."
 	}
 };
 
@@ -134,21 +134,21 @@ self.stripePlanDelete = {
 	}
 };
 
-self.stripePlanGetAll = {
+self.stripePlanList = {
 	code : "015",
 	statusCode : "500",
 	message : {
 		spanish : "No se han podido recuperar todos los planes.",
-		english : "Cannot retrive all the plans."
+		english : "Cannot retrieve all the plans."
 	}
 };
 
-self.stripCustomerRetrive = {
+self.stripCustomerRetrieve = {
 	code : "016",
 	statusCode : "500",
 	message : {
 		spanish : "No se ha podido recuperar el cliente.",
-		english : "The client has not been retrived."
+		english : "The client has not been retrieved."
 	}
 };
 
@@ -170,12 +170,57 @@ self.stripCustomerDelete = {
 	}
 };
 
-self.stripCustomerGetAll = {
+self.stripCustomerList = {
 	code : "019",
 	statusCode : "500",
 	message : {
 		spanish : "No se han podido recuperar todos los clientes.",
-		english : "Cannot retrive all the clients."
+		english : "Cannot retrieve all the clients."
+	}
+};
+
+self.stripeCuponCreate = {
+	code : "020",
+	statusCode : "500",
+	message : {
+		spanish : "El cupón no se ha podido crear.",
+		english : "The cupon has not been create."
+	}
+};
+
+self.stripCuponRetrieve = {
+	code : "021",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido recuperar el cupón.",
+		english : "The cupon has not been retrieved."
+	}
+};
+
+self.stripCuponUpdated = {
+	code : "022",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido actualizar el cupón.",
+		english : "The cupon has not been updated."
+	}
+};
+
+self.stripCuponDelete = {
+	code : "023",
+	statusCode : "500",
+	message : {
+		spanish : "El cupón no se ha eliminado correctamente.",
+		english : "The cupon has not been eliminado successfully."
+	}
+};
+
+self.stripCuponList = {
+	code : "024",
+	statusCode : "500",
+	message : {
+		spanish : "No se han podido recuperar todos los cupones.",
+		english : "Cannot retrieve all the cupons."
 	}
 };
 
