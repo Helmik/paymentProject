@@ -13,24 +13,63 @@ self.init = function(conf){
 // Create a new user
 self.create = function(req,res,next){
   // Get data from petition
-  console.log(req.body);
-	let newPlan = PlanModel(req.body);
-let a = { amount: '5000',
-  interval: 'month',
-  name: 'First plan',
-  currency: 'mxn',
-  id: 'first-plan' };
+	let plan = JSON.stringify(PlanModel(req.body));
 
-	stripe.plans.create(a, function(err,plan){
+	let newPlan = JSON.parse(plan);
+
+	stripe.plans.create(newPlan, function(err,plan){
 		if(err){
 			console.log(err);
       return next(HandleResponse.error(err,"stripePlanCreate"))
     }
-    console.log(plan);
     let response = HandleResponse.success(plan,"stripePlanCreate");
     res.status(response.statusCode).send(response.response);
 	});
 	
+};
+
+self.retrive = function(req,res,next){
+  stripe.plans.retrieve(req.params.id,function(err,plan){
+    if(err){
+      return next(HandleResponse.error(err,"stripePlanRetrive"));
+    }
+    let response = HandleResponse.success(plan,"stripePlanRetrive");
+    res.status(response.statusCode).send(response.response);
+  });
+};
+
+self.update = function(req,res,next){
+  // Get data from petition
+  let plan = JSON.stringify(PlanModel(req.body));
+  let updatePlan = JSON.parse(plan);
+  stripe.plans.update(req.params.id,updatePlan,function(err,plan){
+    if(err){
+      return next(HandleResponse.error(err,"stripePlanUpdated"));
+    }
+    let response = HandleResponse.success(plan,"stripePlanUpdated");
+    res.status(response.statusCode).send(response.response);
+  })
+};
+
+self.remove = function(req,res,next){
+  stripe.plans.del(req.params.id,function(err, confirmation) {
+      if(err){
+        return next(HandleResponse.error(err,"stripePlanDelete"));
+      }
+      let response = HandleResponse.success(confirmation,"stripePlanDelete");
+      res.status(response.statusCode).send(response.response);
+    }
+  );
+};
+
+self.getAll = function(req,res,next){
+  stripe.plans.list(req.body,function(err,plans){
+    if(err){
+      return next(HandleResponse.error(err,"stripePlanGetAll"));
+    }
+    let response = HandleResponse.success(plans,"stripePlanGetAll");
+    res.status(response.statusCode).send(response.response);
+  })
 };
 
 module.exports = self;

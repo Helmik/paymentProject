@@ -33,5 +33,9 @@ module.exports = new Schema({
 	},
 	trial_period_days : {
 		type : Number
-	},
+	}
+},
+// Delete _id property from Plan model
+{
+	_id : false
 });

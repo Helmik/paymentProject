@@ -1,7 +1,6 @@
 var mongoose = require("mongoose"),
-	User = require("../../schemas/Stripe/PlanSchema"),
-	errors = require("../../dictionary/errorCodes");
+	Plan = require("../../schemas/Stripe/PlanSchema");
 
-User.set("autoIndex",true);
+Plan.set("autoIndex",true);
 
-module.exports = mongoose.model("plan",User);
+module.exports = mongoose.model("plan",Plan);

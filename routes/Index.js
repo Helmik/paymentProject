@@ -1,5 +1,6 @@
 var Users = require("../controllers/User/UserCtrl"),
 	StripePlan = require("../controllers/Stripe/PlanCtrl"),
+	StripeCustomer = require("../controllers/Stripe/CustomerCtrl"),
 	bodyParser = require('body-parser'),
 	jsonParser = bodyParser.json(),
 	// var cors = require("cors"),
@@ -41,15 +42,26 @@ self.init = function(conf){
 
 	/*  Routes for users  */
 	Users.init(conf);
-	conf.app.get("/api/users",Users.getAll);
-	conf.app.post("/api/users/create",Users.create);
-	conf.app.put("/api/users/update/:id",Users.update);
-	conf.app.get("/api/users/:id",Users.getUserById);
+	conf.app.get("/api/user",Users.getAll);
+	conf.app.post("/api/user/create",Users.create);
+	conf.app.put("/api/user/update/:id",Users.update);
+	conf.app.get("/api/user/:id",Users.getUserById);
 
 
 	/* Routes for Stripe */
 	StripePlan.init(conf);
-	conf.app.post("/api/stripe/create",StripePlan.create);
+	StripeCustomer.init(conf);
+	conf.app.post("/api/stripe/plan/create",StripePlan.create);
+	conf.app.get("/api/stripe/plan/:id",StripePlan.retrive);
+	conf.app.put("/api/stripe/plan/update/:id",StripePlan.update);
+	conf.app.delete("/api/stripe/plan/delete/:id",StripePlan.remove);
+	conf.app.get("/api/stripe/plan",StripePlan.getAll);
+
+	conf.app.post("/api/stripe/customer/create",StripeCustomer.create);
+	conf.app.get("/api/stripe/customer/:id",StripeCustomer.retrive);
+	conf.app.put("/api/stripe/customer/update/:id",StripeCustomer.update);
+	conf.app.delete("/api/stripe/customer/delete/:id",StripeCustomer.remove);
+	conf.app.get("/api/stripe/customer",StripeCustomer.getAll);
 
 	/* Catch errors */
 	conf.app.use(errorHandler);

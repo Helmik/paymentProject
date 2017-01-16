@@ -40,7 +40,6 @@ self.create = function(req,res,next){
         return next(HandleResponse.error(err,"userOnCreated"));
       }
       let response = HandleResponse.success(user,"userOnCreated");
-      
       res.status(response.statusCode).send(response.response);
     });
   }).catch(function(errors){
@@ -74,9 +73,8 @@ self.getUserById = function(req,res,next){
     if(err){
       return next(HandleResponse.error(err,"getUserById"));
     }
-    let response = HandleResponse.success(users,"getUserById");
-    res.statusCode = response.statusCode;
-    res.send(response.response);
+    let response = HandleResponse.success(user,"getUserById");
+    res.status(response.statusCode).send(response.response);
   });
 };
 

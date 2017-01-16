@@ -87,7 +87,7 @@ self.getUserById = {
 		spanish : "El usuario no se ha encontrado.",
 		english : "The user has not been find."
 	}
-}
+};
 
 self.stripePlanCreate = {
 	code : "010",
@@ -96,6 +96,87 @@ self.stripePlanCreate = {
 		spanish : "El plan no se ha podido crear.",
 		english : "The plan has not been create."
 	}
-}
+};
+
+self.stripeCustomerCreate = {
+	code : "011",
+	statusCode : "500",
+	message : {
+		spanish : "El cliente no se ha podido crear.",
+		english : "The customer has not been create."
+	}
+};
+
+self.stripePlanRetrive = {
+	code : "012",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido recuperar el plan.",
+		english : "The plan has not been retrived."
+	}
+};
+
+self.stripePlanUpdated = {
+	code : "013",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido actualizar el plan.",
+		english : "The plan has not been updated."
+	}
+};
+
+self.stripePlanDelete = {
+	code : "014",
+	statusCode : "500",
+	message : {
+		spanish : "El plan no se ha eliminado correctamente.",
+		english : "The plan has not been eliminado successfully."
+	}
+};
+
+self.stripePlanGetAll = {
+	code : "015",
+	statusCode : "500",
+	message : {
+		spanish : "No se han podido recuperar todos los planes.",
+		english : "Cannot retrive all the plans."
+	}
+};
+
+self.stripCustomerRetrive = {
+	code : "016",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido recuperar el cliente.",
+		english : "The client has not been retrived."
+	}
+};
+
+self.stripCustomerUpdated = {
+	code : "017",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido actualizar el cliente.",
+		english : "The client has not been updated."
+	}
+};
+
+self.stripCustomerDelete = {
+	code : "018",
+	statusCode : "500",
+	message : {
+		spanish : "El cliente no se ha eliminado correctamente.",
+		english : "The client has not been eliminado successfully."
+	}
+};
+
+self.stripCustomerGetAll = {
+	code : "019",
+	statusCode : "500",
+	message : {
+		spanish : "No se han podido recuperar todos los clientes.",
+		english : "Cannot retrive all the clients."
+	}
+};
 
 module.exports = self;
