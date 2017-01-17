@@ -1,29 +1,23 @@
 // Import modules
-var express = require("express");
-var dbConnection = require("./controllers/DBConnectionCtrl");
-var index = require("./routes/Index");
-
-// Global variable to config application
-var globalConfiguration  = {
-    app : express(),
-    language : "spanish"
-};
+var dbConnection = require("./config/DBConnection"),
+    index = require("./routes/Index"),
+    conf = require("./config/configurations");
 
 // Function to initialize application
 function initApp(){
     // Initialize index resource
-    index.init(globalConfiguration);
+    index.init(conf);
 
     // Stat server on port 3000
-    globalConfiguration.app.listen(3000,function(){
+    conf.app.listen(3000,function(){
         console.log("Payment app is listening on port 3000!\n\n\n\n\n\n\n");
     });
 }
 
 // Execute when data base connection fails
-function appFail(){
+function appFail(error){
     console.log("It doesn't work");
-    throw "Error!";
+    throw error;
 }
 
 // Try to connect to database
