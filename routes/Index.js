@@ -51,11 +51,11 @@ self.init = function(conf){
 
 	/* Routes for Stripe */
 	StripeCRUD.init(conf);
-	conf.app.post("/api/stripe/:type/create",StripeCRUD.create);
-	conf.app.get("/api/stripe/:type/:id",StripeCRUD.retrieve);
-	conf.app.put("/api/stripe/:type/update/:id",StripeCRUD.update);
-	conf.app.delete("/api/stripe/:type/delete/:id",StripeCRUD.del);
-	conf.app.get("/api/stripe/:type",StripeCRUD.list);
+	conf.app.post("/api/stripe/:type/create",StripeCRUD.validate,StripeCRUD.create);
+	conf.app.get("/api/stripe/:type/:id",StripeCRUD.validate,StripeCRUD.retrieve);
+	conf.app.put("/api/stripe/:type/update/:id",StripeCRUD.validate,StripeCRUD.update);
+	conf.app.delete("/api/stripe/:type/delete/:id",StripeCRUD.validate,StripeCRUD.del);
+	conf.app.get("/api/stripe/:type",StripeCRUD.validate,StripeCRUD.list);
 
 	// StripePlan.init(conf);
 	// StripeCustomer.init(conf);

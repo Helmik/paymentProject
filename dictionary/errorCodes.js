@@ -179,48 +179,102 @@ self.stripCustomerList = {
 	}
 };
 
-self.stripeCuponCreate = {
+self.stripeCouponCreate = {
 	code : "020",
 	statusCode : "500",
 	message : {
 		spanish : "El cupón no se ha podido crear.",
-		english : "The cupon has not been create."
+		english : "The coupon has not been create."
 	}
 };
 
-self.stripCuponRetrieve = {
+self.stripeCouponRetrieve = {
 	code : "021",
 	statusCode : "500",
 	message : {
 		spanish : "No se ha podido recuperar el cupón.",
-		english : "The cupon has not been retrieved."
+		english : "The coupon has not been retrieved."
 	}
 };
 
-self.stripCuponUpdated = {
+self.stripeCouponUpdated = {
 	code : "022",
 	statusCode : "500",
 	message : {
 		spanish : "No se ha podido actualizar el cupón.",
-		english : "The cupon has not been updated."
+		english : "The coupon has not been updated."
 	}
 };
 
-self.stripCuponDelete = {
+self.stripeCouponDelete = {
 	code : "023",
 	statusCode : "500",
 	message : {
 		spanish : "El cupón no se ha eliminado correctamente.",
-		english : "The cupon has not been eliminado successfully."
+		english : "The coupon has not been eliminado successfully."
 	}
 };
 
-self.stripCuponList = {
+self.stripeCouponList = {
 	code : "024",
 	statusCode : "500",
 	message : {
 		spanish : "No se han podido recuperar todos los cupones.",
-		english : "Cannot retrieve all the cupons."
+		english : "Cannot retrieve all the coupons."
+	}
+};
+
+self.stripeSubscriptionCreate = {
+	code : "025",
+	statusCode : "500",
+	message : {
+		spanish : "La subsctipción no se ha podido crear.",
+		english : "The subscription has not been create."
+	}
+};
+
+self.stripSubscriptionRetrieve = {
+	code : "026",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido recuperar la subscripción.",
+		english : "The subscription has not been retrieved."
+	}
+};
+
+self.stripSubscriptionUpdated = {
+	code : "027",
+	statusCode : "500",
+	message : {
+		spanish : "No se ha podido actualizar la subscripción.",
+		english : "The subscription has not been updated."
+	}
+};
+
+self.stripSubscriptionDelete = {
+	code : "028",
+	statusCode : "500",
+	message : {
+		spanish : "La subscripción no se ha eliminado correctamente.",
+		english : "The subscription has not been eliminado successfully."
+	}
+};
+
+self.stripSubscriptionList = {
+	code : "029",
+	statusCode : "500",
+	message : {
+		spanish : "No se han podido recuperar todas las subscripciones.",
+		english : "Cannot retrieve all the subscriptions."
+	}
+};
+
+self.invalidType = {
+	code : "030",
+	statusCode : "500",
+	message : {
+		spanish : "El typo no se reconoce. Typos válidos (plan,customer,coupon,subscription).",
+		english : "Type is not recognized. Valid types (plan,customer,coupon,subscription)."
 	}
 };
 

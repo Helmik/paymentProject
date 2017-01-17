@@ -112,43 +112,86 @@ self.stripeCustomerList = {
 	}
 };
 
-self.stripeCuponCreate = {
+self.stripeCouponCreate = {
 	statusCode : "200",
 	message : {
 		spanish : "El cupón ha sido creado correctamente.",
-		english : "The cupon has been create successfully."
+		english : "The coupon has been create successfully."
 	}
 };
 
-self.stripeCuponRetrieve = {
+self.stripeCouponRetrieve = {
 	statusCode : "200",
 	message : {
 		spanish : "El cupón se ha recuperado con éxito.",
-		english : "The cupon has been retrieved successfully."
+		english : "The coupon has been retrieved successfully."
 	}
 };
 
-self.stripeCuponUpdated = {
+self.stripeCouponUpdated = {
 	statusCode : "200",
 	message : {
 		spanish : "El cupón se actualizó correctamente.",
-		english : "The cupon has been updated successfully."
+		english : "The coupon has been updated successfully."
 	}
 };
 
-self.stripeCuponDelete = {
+self.stripeCouponDelete = {
 	statusCode : "200",
 	message : {
 		spanish : "El cupón se eliminado correctamente.",
-		english : "The cupon has been deleted successfully."
+		english : "The coupon has been deleted successfully."
 	}
 };
 
-self.stripeCuponList = {
+self.stripeCouponList = {
 	statusCode : "200",
 	message : {
 		spanish : "Se han recuperado todos los cupones.",
-		english : "All the customers has been cupons."
+		english : "All the coupons has been retrieved."
+	}
+};
+
+self.stripeSubscriptionCreate = {
+	statusCode : "500",
+	message : {
+		spanish : "La subsctipción se creó correctamente.",
+		english : "The subscription has been create."
+	}
+};
+
+self.stripeSubscriptionRetrieve = {
+	statusCode : "500",
+	message : {
+		spanish : "La subscripción se recuperó.",
+		english : "The subscription has been retrieved."
+	}
+};
+
+self.stripeSubscriptionUpdated = {
+	code : "027",
+	statusCode : "500",
+	message : {
+		spanish : "La subscripción se actualizó.",
+		english : "The subscription has been updated."
+	}
+};
+
+self.stripeSubscriptionDelete = {
+	code : "028",
+	statusCode : "500",
+	message : {
+		spanish : "La subscripción se ha eliminado correctamente.",
+		english : "The subscription has been eliminado successfully."
+	}
+};
+
+self.stripeSubscriptionList = {
+	code : "029",
+	statusCode : "500",
+	message : {
+		spanish : "Se recuperaron todas las subscripciones.",
+		english : "All the subscriptions has been retrieved."
 	}
 };
 

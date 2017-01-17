@@ -1,6 +1,7 @@
 var CustomerModel = require("../../models/Stripe/CustomerModel"),
     PlanModel = require("../../models/Stripe/PlanModel"),
-    CuponModel = require("../../models/Stripe/CuponModel"),
+    CouponModel = require("../../models/Stripe/CouponModel"),
+    SubscriptionModel = require("../../models/Stripe/SubscriptionModel"),
     HandleResponse = require("../../shared/HandleResponse"),
     stripe,
 
@@ -30,15 +31,26 @@ const objects = {
       list : "stripeCustomerList"
     }
   },
-  cupon : {
-    model : CuponModel,
+  coupon : {
+    model : CouponModel,
     stripeObject : "coupons",
     messages : {
-      create : "stripeCuponCreate",
-      retrieve : "stripeCuponRetrieve",
-      update : "stripeCuponUpdated",
-      del : "stripeCuponDelete",
-      list : "stripeCuponList"
+      create : "stripeCouponCreate",
+      retrieve : "stripeCouponRetrieve",
+      update : "stripeCouponUpdated",
+      del : "stripeCouponDelete",
+      list : "stripeCouponList"
+    }
+  },
+  subscription : {
+    model : SubscriptionModel,
+    stripeObject : "subscriptions",
+    messages : {
+      create : "stripeSubscriptionCreate",
+      retrieve : "stripeSubscriptionRetrieve",
+      update : "stripeSubscriptionUpdated",
+      del : "stripeSubscriptionDelete",
+      list : "stripeSubscriptionList"
     }
   }
 };
@@ -119,6 +131,16 @@ self.list = function(req,res,next){
     let response = HandleResponse.success(resp,type.messages.list);
     res.status(response.statusCode).send(response.response);
   })
+};
+
+self.validate = function(req,res,next){
+  let type = objects[req.params.type];
+  if(type){
+    next();
+  }else{
+    let response = HandleResponse.error({},"invalidType");
+    res.status(response.statusCode).send({message : response.message , code : response.code});
+  }
 };
 
 module.exports = self;
